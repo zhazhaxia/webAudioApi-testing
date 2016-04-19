@@ -1,0 +1,145 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>简爱音乐网</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Language" content="zh-cn">
+<style>
+    #waves{border:1px solid #ccc;}
+    #player{}
+</style>
+</head>
+<body>
+    <pre id="raw">hello world!</pre>
+    <canvas id="waves" width="700" height="300 ">this is your music application!</canvas>
+    <audio id='player' src='./media/wuyufei.mp3' controls="true"></audio>
+    <button class="stop">stop</button>
+    <button class="start">start</button>
+</body>
+<script src="./js/lib/jquery.js"></script>
+<script src="./js/lib/jCanvaScript.js"></script>
+<script src="./js/lib/sea.js"></script>
+<script>
+
+define('main',function( require, exports, module){
+    exports=exports.module={
+        init:function(){
+            this.initData();
+            this.bind();
+            this.draw();
+
+            //jc.start('waves',true);
+            //jc.rect(80,100,120,50,'#000',true).click(function(){this.animate({width:200,height:200,'color':'#f0f'},1000);});
+            
+        },
+        initData:function(){
+            this.waves = $("#waves")[0];
+            this.player = $('#player')[0];
+           
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();//音频上下文
+            this.ctx = waves.getContext("2d");//画布上下文
+
+            this.WIDTH = waves.width;
+            this.HEIGHT = waves.height;
+
+            
+            this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);//清空画布
+            this.ctx.fillStyle = 'rgb(200, 200, 200)';
+            this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
+
+            // 设置音频分析器
+            // audio音频 -> analyser分析器 -> speaker扬声器
+            this.analyser = this.audioContext.createAnalyser();
+            this.source = this.audioContext.createMediaElementSource(player);
+            this.source.connect(this.analyser);
+            // 让扬声器的音频通过分析器
+            this.analyser.connect(this.audioContext.destination);
+
+            // 设置数据
+            this.analyser.fftSize = 32;//频道数量
+            this.bufferLength = this.analyser.fftSize;
+            this.dataArray = new Float32Array(this.bufferLength);//每个频道的频率
+            this.frame = 0;//音频帧数
+            console.log(this.analyser);
+            this.player.play();
+        },
+        draw:function(){
+            if (!this.player.paused) {
+                // 更新音频数据
+                this.analyser.getFloatTimeDomainData(this.dataArray);
+                //每一帧都重新渲染画布一次
+                this.render(this.dataArray, this.bufferLength,this.ctx, this.WIDTH, this.HEIGHT);
+            }
+            if (!this.player.paused){
+                var self = this;  // requestAnimationFrame 绑定在 global 全局的this,相当于定时器setTimeout，根据机器选择最大不丢帧的频率运行
+                // this.frame = requestAnimationFrame(function() {
+                //     self.draw();
+                // });
+                this.frame = setTimeout(function() {
+                    self.draw();
+                },200);
+                //console.log(this.frame );
+            }
+            
+
+        },
+        render: function(data, len, context, WIDTH, HEIGHT) {//console.log(data);
+            // 清空画布
+            context.fillStyle = 'rgb(70, 70, 70)';
+            context.fillRect(0, 0, WIDTH, HEIGHT);
+
+            /****线条
+            // 配置线条
+            context.lineWIDTH = 2;
+            context.strokeStyle = 'rgb(255, 255, 255)';
+            context.beginPath();
+
+            // 绘制声波
+            var x = 0, sliceWIDTH = WIDTH * 1.0 / len;
+            context.moveTo(0, data[0] * HEIGHT/2 + HEIGHT/2);
+            for(var i = 1; i < len; i++) {
+            var y = HEIGHT/2 + data[i] * HEIGHT/2;
+            context.lineTo(x, y);
+            x += sliceWIDTH;
+            }
+            context.lineTo(WIDTH, data[len-1] * HEIGHT/2 + HEIGHT/2);
+
+            // 展示声波
+            context.stroke();
+            */
+            ///////矩形
+            // Create gradient
+            var grd=context.createLinearGradient(0,300,0,0);
+            grd.addColorStop(0,"pink");
+            grd.addColorStop(1,"cyan");
+            // Fill with gradient
+            context.fillStyle=grd;
+            var x = 0, sliceWIDTH = WIDTH*1.0/len;
+            for(var i = 0;i < len; i=i+10){
+                var y = data[i] * 1000
+                context.fillRect(x, HEIGHT - y, sliceWIDTH, y);
+                x += sliceWIDTH*10;
+            }
+            context.fill();
+            
+        },
+        bind:function(){
+            var self = this;
+            $('body')
+            .on('click','.stop',function(){
+                self.player.pause();
+            })
+            .on('click','.start',function(){
+                self.player.play();
+                self.draw();
+            })
+        }
+    }
+});
+seajs.use('main',function(ex){
+    ex = ex.module;
+    ex.init();
+});
+</script>
+</html>

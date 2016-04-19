@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>拖拽上传</title>
+</head>
+<style>
+#up_id{ position:relative; overflow:hidden;display:block;width:100px; height:100px;}
+#f_a{display:block;width:100px; height:100px;background:#ccc; overflow:hidden; text-align:center; line-height:100px;position:absolute; z-index:1;}
+#imageFile{display:block;width:100px; height:100px;opacity:0; cursor:pointer; position:absolute; z-index:2;}
+</style>
+<body>
+<div id="up_id">
+    <a id="f_a">点击选择</a>
+
+    <input type="file" name="file" id="imageFile" multiple>
+</div>
+<button id="upload" >点击图片上传</button>
+</body>
+<script>
+(function(){
+	var upload=document.getElementById('upload'); 
+	// 接收上传文件的后台地址,后台地址需要允许跨域传输操作
+	var myurl = "http://127.0.0.1:3000/upload";
+	// XMLHttpRequest 对象
+	
+	var f_a=document.getElementById('f_a');
+	var upfile=document.getElementById('imageFile');
+	
+	upload.addEventListener('click',function(){
+		ajaxFileUpload({
+			url:myurl,
+			id:'imageFile',
+			success:function(res){
+				alert(res);
+			}
+		});
+				
+	});
+	
+	
+	upfile.addEventListener('dragenter',function(e){
+		e.preventDefault();
+		f_a.innerHTML='放下鼠标上传';
+	},false);
+	upfile.addEventListener('dragleave',function(e){
+		e.preventDefault();
+		f_a.innerHTML='选择文件';
+	},false);
+	upfile.addEventListener('dragover',function(e){
+		e.preventDefault();
+	},false);
+	upfile.addEventListener('drop',function(e){
+		e.preventDefault();
+		f_a.innerHTML='选择文件';
+		console.log(e.dataTransfer.files);
+		upfile.files=e.dataTransfer.files;
+		
+			// ajaxFileUpload({
+			// 	url:myurl,
+			// 	id:'imageFile',
+			// 	success:function(res){
+			// 		alert(res);
+			// 	}
+			// });
+			
+	},false);
+	
+	
+	
+	
+	
+	function ajaxFileUpload(s){//封装函数库，上传单文件
+		var xhr = new XMLHttpRequest(),file;
+		var form=new FormData(),//表单对象
+			target=document.getElementById(s.id);
+		//alert(target.value);
+		//setTimeout(function(){},1000);
+		/*if(target.value!=''){
+			file=target.files[0];
+			form.append('file',file);
+		}else{return ;}*/
+		
+		file=target.files[0];
+		form.append('file',file);
+		form.append('name','milu');
+		
+		
+		xhr.open("post", s.url, true);//异步方式上传文件
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState==4){
+				if(xhr.status==200){//上传成功返回回调信息xhr.responseT
+					s.success(xhr.responseText);
+				}
+			}
+		}
+     	xhr.send(form);//发送表单内容	
+	}
+})();
+
+</script>
+</html>

@@ -1,0 +1,89 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>简爱音乐网</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+<style>
+    
+</style>
+</head>
+<body>
+    <div id="bg"></div>
+    <div id="file" draggable="true">
+        <p class="filecontainer">Please drag your music files here</p>
+        <input type="file" name="file" id="songfile" multiple='true'>
+    </div>
+    <canvas id="waves" width="1" height="1">this is your music application!</canvas>
+    <!-- 左边S -->
+    <div id="left">
+        <!-- 头像 -->
+        <div class="head">
+           <div class="head-pic float-l">
+               <img class="h-pic" src="./img/nologin.png" width="80">
+           </div>
+           <div class="head-dsc float-l">
+               <p class="username">渣渣夏_咪璐</p>
+               <p class="userdsc">前端工程师</p>
+           </div>
+        </div>
+        <!-- 歌曲列表 -->
+        <p class="sl-title">Song List</p>
+        <div class="song-list">
+            <div class="scroll-panel">
+                <div class="blank"></div>
+                <ul class="ul-list">
+                    <!--
+                    <li class="song ch-song">爱你变成恨你</li>
+                    <li class="song">痛爱</li>
+                    -->
+                </ul>
+                <!-- <p class="loadmore">加载更多……</p> -->
+            </div>
+        </div>
+    </div>
+    <!-- 左边E -->.
+    <!-- 右边S -->
+    <div id="right">
+    
+        <div class="effect-title">Effect List</div>
+        <div class="scroll-panel2">
+            <ul class="effect-list">
+                <li class="list effect-source ch-effect">effect-source</li>
+                <li class="list effect-3d ">effect-3d</li>
+                
+                <li class="list effect-devete-voice">effect-devete-voice</li>
+                <li class="list biquadFilter">biquadFilter</li>
+                <li class="list delay">delay</li>
+                <li class="list waveShaper">waveShaper</li>
+                <li class="list convolver">convolver</li>
+                <li class="list splitterMerger">splitterMerger</li>
+                <li class="list audioParam">audioParam</li>
+
+                <li class="list visual" data-type="2"><img src="./img/e0.jpg"></li>
+                <li class="list visual" data-type="1"><img src="./img/e1.jpg"></li>
+                <li class="list visual" data-type="3"><img src="./img/e2.jpg"></li>
+            </ul>
+        </div>
+        </div>
+    <!-- 右边E -->
+    <audio id='player' src='./media/新不了情.mp3' controls="true"></audio>
+    
+</body>
+<script src="./js/lib/sea.js"></script>
+<script src="./js/lib/jquery.js"></script>
+<script src="./js/lib/jCanvaScript.js"></script>
+<script>
+seajs.config({
+    base:'./js'
+})
+seajs.use(['main','lib/scrollpanel'],function(ex1,ex2){
+    ex1.init();
+    ex2.init('.scroll-panel');
+    ex2.init('.scroll-panel2');
+});
+</script>
+</html>

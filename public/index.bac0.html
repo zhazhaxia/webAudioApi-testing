@@ -1,0 +1,46 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>简爱音乐网</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Language" content="zh-cn">
+</head>
+<body>
+    <pre id="raw">hello world!</pre>
+    <canvas id="waves" width="700" height="300">this is your music application!</canvas>
+    <audio id='player' src='./media/wuyufei.mp3' controls="true"></audio>
+</body>
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="./js/lib/sea.js"></script>
+<script>
+define('main',function( require, exports, module){
+    var audio,raw;
+    exports=exports.module={
+        init:function(){
+            raw = $("#raw")[0];
+            audio = $('#player')[0];
+            audio.addEventListener('WebkitAudioAvailable', this.audioAvailable,false);
+            audio.addEventListener('loadedmetadata', this.loadedMetadata,false);
+        },
+        loadedMetadata:function(){alert(typeof audio.webkitSampleRate);console.log(audio);
+audio.play();
+            channels = audio.webkitChannels;
+            rate = audio.webkitSampleRate;
+            frameBufferLength = audio.webkitFrameBufferLength;alert(frameBufferLength)
+        },
+        audioAvailable:function(ev){alert(99)
+            var frameBuffer = ev.frameBuffer,
+                t = ev.time,
+                text = "samples at:"+t+'\n';
+            text += frameBuffer[0]+ "" + frameBuffer[1];
+            raw.innerHTML = text;
+        }
+    }
+});
+seajs.use('main',function(ex){
+    ex = ex.module;
+    ex.init();
+});
+</script>
+</html>

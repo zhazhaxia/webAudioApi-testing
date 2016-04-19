@@ -1,0 +1,74 @@
+/*css reset*/
+body {font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;width:100%;margin:0;padding:0;}
+html,body,div,p,span,img,a,h1,h2,h3,dl,dd,dt,ol,ul,li,font,strong,input,table,tr,td{margin:0;padding:0;font=size:12px; font-family:"微软雅黑";border:none;color:#eee;}
+p{text-indent: 10px;}
+a,ol,ul,li{text-decoration:none; list-style:none;background: rgb(70,70,70);}
+a {color: #00B7FF;}
+html{overflow: hidden;}
+
+/*******/
+#bg{width: 100%;height: 100%;background: url(../img/bg3.jpg) no-repeat;background-size: cover;    background-attachment: fixed;position: fixed;left: 0;right: 0;}
+#waves{border:1px solid #ccc;display: block;position: fixed;left: 0;right: 0;}
+#player{width:50%;display: block;position:fixed;bottom: 10px;left:50%;margin-left:-25%;opacity: 0;-webkit-transition:0.5s;}
+#player:hover{opacity: 1;}
+
+/*左边css*/
+#left{position: fixed;left:0;top:0;width:200px;height:100%;background: rgb(48,48,48);transition:0.5s;border-right: 1px solid #555;}
+/*头像*/
+#left .head{width: 100%;height: 80px;z-index: 1;position: relative;background-color: #404040;border-bottom: 1px solid #555;}
+#left .head-pic{width: 80px;height: 80px;}
+#left .head-dsc{width: 120px;height: 80px;}
+#left .head-dsc p{width: 100%;height: 35px;line-height: 30px;text-indent: 10px;color: #eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#left .head-dsc p:first-child{margin-top: 5px;}
+#left .head-dsc p:last-child{font-size: 12px;}
+#left .head-pic:hover{cursor: pointer;}
+/*用户名*/
+#left .sl-title{font-size:20px;height:40px;line-height:40px;font-family: 微软雅黑;text-align: center;color:#888;background-color: #404040;z-index: 1;position: relative;}
+/*歌曲列表*/
+#left .song-list{height: 100%;width:100%;position: absolute;top:0;left: 0;z-index: 0;overflow: hidden;}
+#left .blank{height: 110px;}
+#left .ul-list{font-size: 16px;text-align: center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color: #aaa;margin-top: 10px;}
+#left .song{border-bottom: 1px solid #555;padding: 15px;color: #888;font-size: 15px;width: 100%;cursor: pointer;word-break: break-all;transition: background-color 0.3s;box-sizing: border-box;text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);cursor: pointer;}
+#left .song:hover{background: rgb(4,154,179);color: #fff;}
+#left .loadmore{text-align: center;color:#aaa;cursor: pointer;}
+.scroll-panel,.scroll-panel2{width:100%;position: absolute;left: 0;top: 0px;transition: 0.1s;}
+
+
+
+
+
+
+
+
+
+
+
+/*右边css*/
+#right{position: fixed;right:0;top:0;width:200px;height:100%;background: rgb(48,48,48);transition:0.5s;}
+#right .effect-title{padding: 15px;font-size: 20px;color: #888;text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);border-bottom: 1px solid #202020;box-shadow: 0 0 5px #000, inset 0 0 5px rgba(255, 255, 255, 0.2);text-align: center;background-color: #404040;cursor: default;position:absolute;top:0;left: 0;z-index: 2;width: 100%; text-indent: -30px;}
+#right .effect-list{width: 200px;display: block;list-style: none;opacity: 0.8;max-height: calc(100% - 50px);overflow: hidden;margin-top:59px;}
+#right .effect-list .list{padding: 15px;cursor: pointer;transition: background-color 0.3s, -webkit-filter 0.3s;-webkit-filter: grayscale(1);}
+#right .effect-list .list:hover{background-color: rgb(4,154,179);-webkit-filter: grayscale(0);}
+#right .effect-list .list img{vertical-align: middle;box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);}
+
+
+
+
+
+
+/*文件上传*/
+#file{height: 400px;width: 70%;position: absolute;top:150px;left: 40%;margin-left: -30%;z-index: 2;}
+#songfile{display: block;width: 100%;height: 100%;cursor: pointer;position: absolute;left: 0;top: 0;z-index: 3;opacity: 0;}
+#file .filecontainer{width: 100%;height:100%;position: absolute;left: 0;top: 0;z-index: 2;text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 0, 0, 0.8);font-size: 40px;-webkit-text-stroke: 1px #fff;text-align: center;color: #fff;line-height: 400px;}
+
+
+
+
+
+
+/*工具css*/
+.hide-left{left:-200px !important;}
+.hide-right{right:-200px !important;}
+.float-l{float: left;}
+.ch-song{background-color: rgb(4,154,179);color: #fff !important;}
+.ch-effect{background-color: rgb(4,154,179);-webkit-filter: grayscale(0) !important;}

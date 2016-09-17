@@ -1,0 +1,151 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>简爱音乐网</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Language" content="zh-cn">
+<style>
+body{margin:50px 50px;font-family: "微软雅黑";}
+#dragfile,#fileshow{width:500px;height: 200px;background: #eee;margin: 0 auto;line-height: 200px;text-align: center;font-size: 24px;cursor: pointer;}
+#dragfile{position: absolute;top: 0;left: 0;opacity: 0;}
+.drang-bar{width:300px;height:5px;background: #ccc;position: relative;margin: 20px 20px;}
+.drang-bar .left{width:7px;height: 15px;background: #f67;position: absolute;left: 0%;top:-5;}
+.drang-bar .right{width:7px;height: 15px;background: #67f;position: absolute;left: 100%;top:-5;}
+.drang-bar .lNum{display: block;position: absolute;left: -10px;top: 5px;}
+.drang-bar .rNum{display: block;position: absolute;right: -35px;top: 5px;}
+</style>
+</head>
+<body>
+    <pre id="songname">hello milu!</pre>
+    <div id="fileshow">please drag your song file here!
+        <input type="file" name="file" id="dragfile">
+    </div>
+    <input type="file" name="file" id="dragfile">
+<audio id="player" controls="controls" src="./media/niunai.mp3"></audio>
+
+<div class="drang-bar">
+    <span class="lNum">0</span>
+    <div class="left"></div>
+    <div class="right"></div>
+    <span class="rNum">100</span>
+</div>
+
+<button class="clip">clip song</button>
+<button class="stop">stop song</button>
+<button class="save">save song</button>
+</body>
+<script src="./js/lib/jquery.js"></script>
+<script src="./js/lib/jCanvaScript.js"></script>
+<script src="./js/lib/sea.js"></script>
+<script>
+seajs.config({
+    base:"./"
+});
+
+define('main',function( require, exports, module){
+    var songclip = require('./js/songclip');
+
+    // console.log(songclip)
+    exports=exports.module={
+        init:function($p){
+            this.$player = $p;
+            this.player = $p[0];
+            this.bind();
+            songclip.init($('#player')[0]);
+        },
+        $player:"",
+        player:"",
+        min:0,
+        max:1,
+        bind:function(){
+            $('body').on('dragenter', '#dragfile', function(e) {
+                e.preventDefault();
+                console.log('enter')
+                e = e.originalEvent;
+                $('#fileshow').text('Please mouse up');
+            }).on('dragleave', '#dragfile', function(event) {
+                event.preventDefault();
+                console.log('leave')
+                $('#fileshow').text('Please drag your music file here');
+            }).on('drop', '#dragfile', function(e) {
+                e.preventDefault();
+                console.log('drop')
+                e = e.originalEvent;//事件代理需要提取源事件才能获取真实的事件
+                $('#fileshow').text('Please drag your music files here');
+                exports.addSong(e.dataTransfer.files);
+            }).on('change', '#dragfile', function(e) {
+                e.preventDefault();
+                exports.addSong(e.target.files);
+            }).on('click', '.clip', function() {
+                exports.player.pause();
+                songclip.clipBufferSource(exports.player.src,exports.min,exports.max);
+            }).on('click', '.stop', function() {
+                songclip.stopBufferSource();                
+            }).on('click', '.save', function() {
+                songclip.saveClipSong();                
+            });
+
+            exports.$player.on('loadeddata', function() {
+                exports.initBar(exports.$player[0].duration);
+            });
+        },
+        addSong:function (files) {
+             if(files[0].type.indexOf('audio') >= 0){
+                var name = files[0].name.substr(0,files[0].name.lastIndexOf('.')),
+                blob = URL.createObjectURL(files[0]);
+                $('#songname').text(name);
+                exports.$player[0].src = blob;
+             }
+        },
+        initBar:function (total) {
+            console.log(total)
+            drag($('.drang-bar'),$('.drang-bar').find('.left'),0,~~total,function (nt) {
+                exports.min = exports.$player[0].currentTime = ~~exports.$player[0].duration * nt;
+                exports.$player[0].play();
+                $('.drang-bar').find('.lNum').text(~~exports.min)
+            });
+            drag($('.drang-bar'),$('.drang-bar').find('.right'),0,~~total,function (nt) {
+                exports.max = exports.$player[0].currentTime = ~~exports.$player[0].duration * nt;
+                exports.$player[0].play();
+                $('.drang-bar').find('.rNum').text(~~exports.max)
+            });
+        }
+
+    }
+});
+function drag($p,$c,min,max,callback){//父级，子级
+    var p = $p[0],
+        c = $c[0],
+        pLength = parseInt(p.offsetWidth);
+    $p.find('.lNum').text(min);
+    $p.find('.rNum').text(max);
+
+    c.onmousedown = function (e) {
+        var downX = e.clientX,
+            nowL = parseInt(c.offsetLeft),
+            percent = 0;
+        document.onmousemove=function (e) {
+            var moveX = e.clientX,
+                offsetLength = nowL + moveX - downX;//之后的距离
+            if (offsetLength < 0) {offsetLength=0;}
+            if (offsetLength > pLength) {offsetLength = pLength;}
+            percent = (offsetLength / pLength).toFixed(2);
+            c.style.left = percent*100+"%";
+            return false;
+            
+        }
+        document.onmouseup = function (e) {
+            callback && callback(percent);
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+        
+    }
+};
+seajs.use('main',function(ex){
+    ex = ex.module;
+    ex.init($('#player'));
+});
+</script>
+</html>

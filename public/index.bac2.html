@@ -13,18 +13,25 @@
 <body>
     <pre id="raw">hello world!</pre>
     <canvas id="waves" width="700" height="300 ">this is your music application!</canvas>
+    <br>
     <audio id='player' src='./media/niunai.mp3' controls="true"></audio>
+    <br>
     <button class="stop">stop</button>
     <button class="start">start</button>
     <button class="deletevoice">delete voice</button>
     <button class="sourcevoice">source voice</button>
     <button class="effect3dvoice">effect3d voice</button>
     <button class="waveShaper">waveShaper</button>
-    <button class="delay">delay二重奏</button>
+    <button class="delay">delay二重奏</button><br>
     <button class="convolver">convolver</button>
     <button class="splitterMerger">splitterMerger</button>
     <button class="audioParam">audioParam</button>
     <button class="biquadFilter">biquadFilter</button>
+    <button class="xhrLoad">xhrLoad</button>
+    <button class="xhrLoadStop">xhrLoadStop</button>
+    <button class="xhrLoadStart">xhrLoadStart</button>
+    <button class="saveClipSong">saveClipSong</button><br>
+
     <span>x-50<input type="range" min="-50" max="50" value="0" id="xr">50</span>
     <span>y-50<input type="range" min="-50" max="50" value="0" id="yr">50</span>
     <span>z-50<input type="range" min="-50" max="50" value="0" id="zr">50</span>
@@ -130,7 +137,7 @@ define('main',function( require, exports, module){
             this.bufferLength = this.analyser.fftSize;
             this.dataArray = new Float32Array(this.bufferLength);//每个频道的频率
             this.frame = 0;//音频帧数
-            console.log(this.analyser);
+            // console.log(this.analyser);
         },
         bind:function(){
             var self = this;
@@ -173,6 +180,17 @@ define('main',function( require, exports, module){
             }).on('click', '.biquadFilter', function() {
                 
                 dv.biquadFilter();
+            }).on('click', '.xhrLoad', function() {
+                dv.BufferSource(self.player.src);                
+            }).on('click', '.xhrLoadStop', function() {
+                
+                dv.stopBufferSource();
+            }).on('click', '.xhrLoadStart', function() {
+                
+                dv.startBufferSource();
+            }).on('click', '.saveClipSong', function(event) {
+                
+                dv.saveClipSong();
             });
         }
     }

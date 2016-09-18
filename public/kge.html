@@ -1,0 +1,123 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>简爱音乐网</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Language" content="zh-cn">
+<style>
+body{margin:50px 50px;font-family: "微软雅黑";}
+.btn{width:300px;height: 30px;background: #9f8;float: left;margin: 20px 20px;cursor: pointer;text-align: center;line-height: 30px;}
+.btn:hover{background: #2f4;}
+#player{clear: both;display: block;}
+</style>
+</head>
+<body>
+    <pre id="songname">hello milu!</pre>
+
+<audio id="songplayer" controls="controls" src="./media/wuyufei.mp3"></audio>
+<br>
+<div class="btn record">start k ge!</div>
+<div class="btn stop" disabled="true">stop kg</div>
+<div class="btn play" disabled="true">play kg</div><br>
+<div class="btn endkge">end kge and save</div><br>
+<audio id="player" controls="controls" src="./media/niunai.mp3"></audio>
+</body>
+<script src="./js/lib/jquery.js"></script>
+<script src="./js/lib/jCanvaScript.js"></script>
+<script src="./js/lib/sea.js"></script>
+<script>
+seajs.config({
+    base:"./"
+});
+
+
+define('main',function( require, exports, module){
+    var kge = require('./js/kge'),
+        mergeAudio = require('./js/mergeAudio'),
+        $record = $('.record'),
+        $stop = $('.stop'),
+        $play = $('.play');
+    // console.log(songclip)
+    // var ac = new AudioContext(),
+    //     source1 = ac.createMediaElementSource($('#songplayer')[0]),
+    //     source2 = ac.createMediaElementSource($('#player')[0]),
+    //     gain1 = ac.createGain(),
+    //     gain2 = ac.createGain();
+
+    //     source1.connect(gain1);
+    //     source2.connect(gain2);
+
+    //     gain1.connect(ac.destination);
+    //     gain2.connect(ac.destination);
+
+
+
+
+
+    exports=exports.module={
+        init:function($p){
+            this.$player = $p;
+            this.player = $p[0];
+            this.bind();
+
+            kge.init(this.player);
+            kge.getSpeaker();
+        },
+        $player:"",
+        player:"",
+        bind:function(){
+            $('body')
+            .on('click', '.record', function(e) {
+                e.preventDefault();
+                $record[0].disabled=true;
+                $stop[0].disabled=false;
+                $play[0].disabled=true;
+
+                $('#songplayer')[0].play();
+                $record.text('recording......')
+                kge.record();
+            }).on('click', '.stop', function(e) {
+                e.preventDefault();
+                $record[0].disabled=false;
+                $stop[0].disabled=true;
+                $play[0].disabled=false;
+
+                console.log('stop...')
+
+                $record.text('start k ge!')
+                mergeAudio.kgeBuffer = kge.stop();
+                $('#songplayer')[0].pause();
+            }).on('click', '.play', function(e) {
+                e.preventDefault();
+                $record[0].disabled=false;
+                $stop[0].disabled=true;
+                $play[0].disabled=true;
+
+
+                $(this).text('loading kge data......')
+                mergeAudio.init();
+                mergeAudio.mergeSong($('#songplayer')[0].src,exports.player.src);
+                // mergeAudio.play();
+                // exports.player.play();
+            }).on('click', '.endkge', function() {
+                console.log('stop')
+                $play.text('play your k ge')
+                mergeAudio.stop();
+
+                mergeAudio.saveKge();
+            });
+
+            exports.player.onended = function (e) {
+                $stop.trigger('click');
+            }
+        }
+    }
+});
+
+seajs.use('main',function(ex){
+    ex = ex.module;
+    ex.init($('#player'));
+});
+</script>
+</html>

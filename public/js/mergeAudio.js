@@ -29,21 +29,6 @@ define('./js/mergeAudio',function( require, exports, module){
         getData:function (src) {
             console.log(src)
             var dtd = $.Deferred();
-            // $.ajax({
-            //     url:src,
-            //     dataType:"arraybuffer",
-            //     success:function (res) {
-            //         console.log(res)
-            //         var audioData = res.response;
-            //         exports.audioContext.decodeAudioData(audioData, function(buffer) {
-            //             console.log(buffer)
-            //             dtd.resolve(buffer);
-            //         },function(e){"Error with decoding audio data" + e.err});
-            //     },
-            //     fail:function (res) {
-            //         console.log(res)
-            //     }
-            // });
 
 
             request = new XMLHttpRequest();

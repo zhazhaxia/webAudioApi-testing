@@ -23,12 +23,40 @@ define('./js/recordsong',function( require, exports, module){
         },
         onSuccess:function (stream) {
         	exports.mediaRecorder = new MediaRecorder(stream);
+
+
+//录音的同时在耳机播放
+var source=exports.audioContext.createMediaStreamSource(stream);
+//用于录音的processor节点
+var recorder=exports.audioContext.createScriptProcessor(1024,1,1);
+source.connect(recorder);
+recorder.connect(exports.audioContext.destination)
+  recorder.onaudioprocess=function(e){
+    var inputBuffer = e.inputBuffer;
+    // console.log(inputBuffer)
+    var outputBuffer = e.outputBuffer;
+    for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+        var inputData = inputBuffer.getChannelData(channel);
+        var outputData = outputBuffer.getChannelData(channel);
+        for (var sample = 0; sample < inputBuffer.length; sample++) {
+          outputData[sample] = inputData[sample] * 0.5;
+        }
+        // console.log(exports.buffer)
+    }
+  };
+
+
+
+
+
+
         	exports.mediaRecorder.onstop = function (e) {
       			var blob = new Blob(exports.chunk, { 'type' : 'audio/wav;' }),
       			    url = window.URL.createObjectURL(blob);
         		exports.audio.src = url;
         	}
         	exports.mediaRecorder.ondataavailable = function (e) {
+                
         		exports.chunk.push(e.data);
         	}
         },

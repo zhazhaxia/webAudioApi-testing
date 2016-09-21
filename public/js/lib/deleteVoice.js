@@ -11,7 +11,7 @@ define('./js/lib/deleteVoice',function( require, exports, module){
         //     return new AudioContext();
         // })(),
         getContext: function() {
-            return new AudioContext();;
+            return new AudioContext();
         },
         buffer:[],
         getAnalyser:function(){//用于音频数据可视化

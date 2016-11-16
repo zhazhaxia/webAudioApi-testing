@@ -1,6 +1,6 @@
-##  web audio api介绍  ##
+##  Web Audio API介绍  ##
 
-web audio api是web处理与合成音频的高级javascript api。web audio api草案规范由W3C audio working group定制，旨在解决javascript在web平台处理音频的短板，底层由c++引擎提供支持与优化。Web Audio API提供了非常丰富的接口让开发者在web平台上实现对web音频进行处理。利用Web Audio API，web开发者能够在web平台实现音频音效、音频可视化、3D音频等音频效果。	
+Web Audio API是web处理与合成音频的高级javascript api。Web Audio API草案规范由W3C audio working group定制，旨在解决javascript在web平台处理音频的短板，底层由c++引擎提供支持与优化。Web Audio API提供了非常丰富的接口让开发者在web平台上实现对web音频进行处理。利用Web Audio API，web开发者能够在web平台实现音频音效、音频可视化、3D音频等音频效果。	
 
 ### Web Audio API基本概念 ###
 - audio context
@@ -11,14 +11,14 @@ web audio api是web处理与合成音频的高级javascript api。web audio api�
 
 - modular routing
 
-	模块路由是web audio api处理web音频的工作方式，这里可以理解为web音频处理的过程就像学CCNA的时候路由器的路由连接方式，从源到目的，中间有很多路由节点，它们之间相互连接且无回路，类似一个有向图。
+	模块路由是Web Audio API处理web音频的工作方式，这里可以理解为web音频处理的过程就像学CCNA的时候路由器的路由连接方式，从源到目的，中间有很多路由节点，它们之间相互连接且无回路，类似一个有向图。
 
 	![modular routing](http://i.imgur.com/Zu2X2ZU.png)
 
 
 - audio node
 
-	audio node是web audio api处理音频时的音频节点。节点由audio context生成，每个节点有自己的功能。
+	audio node是Web Audio API处理音频时的音频节点。节点由audio context生成，每个节点有自己的功能。
 
 - audio routing graph
 
@@ -30,7 +30,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 
 - AudioContext
 
-	AudioContext是Web Audio Api的核心对象。所有的audio 节点实例由AudioContext生成。
+	AudioContext是Web Audio API的核心对象。所有的audio 节点实例由AudioContext生成。
     `var audioContext = new AudioContext(); `
 	不同浏览器厂商实现AudioContext有所差异，可以加上对应前缀进行兼容。
 
@@ -65,7 +65,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	
 	- gainNode，在webAudio中，可以通过gainNode来控制音量
 
-	- BiquadFilterNode，可以用于音频滤波处理。web Audio api提供了高通滤波、低通滤波的接口，利用这些接口也可以实现中通滤波。
+	- BiquadFilterNode，可以用于音频滤波处理。Web Audio API提供了高通滤波、低通滤波的接口，利用这些接口也可以实现中通滤波。
 
 	音频经过这些音效处理节点后，再输入destinationNode，就可以实现相应的音效效果。
 
@@ -120,7 +120,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 
 - Audio processing via JavaScript
 
-	webAudioApi提供了丰富的音频处理接口为音效处理提供了许多方便，但是这些接口也有局限性，开发人员无法定制自己需要的效果，因此，webAudio提供了ScriptProcessorNode节点。ScriptProcessorNode可以获取到音频原始处理数据，然后开发人员根据对应音频音效算法对这些音频数据进行处理，从而实现定制音频音效效果。
+	Web Audio API提供了丰富的音频处理接口为音效处理提供了许多方便，但是这些接口也有局限性，开发人员无法定制自己需要的效果，因此，webAudio提供了ScriptProcessorNode节点。ScriptProcessorNode可以获取到音频原始处理数据，然后开发人员根据对应音频音效算法对这些音频数据进行处理，从而实现定制音频音效效果。
 
 		var source = audioContext.createMediaStreamSource(stream);
 		var recorder = audioContext.createScriptProcessor(1024,1,1);
@@ -138,7 +138,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 		    }
 		};
 
-## webAudioApi应用案例分析 ##
+## Web Audio API应用案例分析 ##
 
 - web音频录音和实时回放
 
@@ -205,7 +205,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 
 	 web实现在线K歌实际上是webAudio录音与web音频剪切的综合实现。
 	
-	在线k歌的歌曲伴奏也可以通过webAudioApi实现，主要原理的：人声是有固定频率范围的，把一首歌曲读取后，根据webAudio提供的接口，实现人声频段的过滤，保留下伴奏，从而实现web平台下的伴奏人声消除应用。
+	在线k歌的歌曲伴奏也可以通过Web Audio API实现，主要原理的：人声是有固定频率范围的，把一首歌曲读取后，根据webAudio提供的接口，实现人声频段的过滤，保留下伴奏，从而实现web平台下的伴奏人声消除应用。
 	
 	案例地址
 	
@@ -245,3 +245,5 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	[http://codepen.io/edball/pen/WQjMEN/](http://codepen.io/edball/pen/WQjMEN/)
 
 	[https://modernweb.com/2014/03/31/creating-sound-with-the-web-audio-api-and-oscillators/](https://modernweb.com/2014/03/31/creating-sound-with-the-web-audio-api-and-oscillators/)
+
+	(作者：miluwu  邮箱：337262356@qq.com)

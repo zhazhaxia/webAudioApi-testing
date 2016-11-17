@@ -1,4 +1,4 @@
-##  Web Audio API介绍和web音频应用案例分析  ##
+##  Web Audio API介绍与web音频应用案例分析  ##
 
 Web Audio API是web处理与合成音频的高级javascript api。Web Audio API草案规范由W3C audio working group定制，旨在解决javascript在web平台处理音频的短板，底层由c++引擎提供支持与优化。Web Audio API提供了非常丰富的接口让开发者在web平台上实现对web音频进行处理。利用Web Audio API，web开发者能够在web平台实现音频音效、音频可视化、3D音频等音频效果。本篇文章首先介绍了Web Audio API相关概念、常用的几个接口节点，以便不熟悉Web Audio的开发人员有个了解。后面主要分析了3个Web Audio API的应用案例，web音频录音与实时回放、web音频剪切、web实现在线k歌，通过应用案例加深对Web Audio API的了解。读者也可以根据案例开拓思维，做出更好玩的web音频应用。
 

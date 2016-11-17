@@ -200,6 +200,12 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	        }
         }
 
+	4 注意问题
+
+	延时：实时播放的时候会有些延时，造成的主要原因，一是ScriptProcessor处理输出数据播放的时候需要一定时间，在性能比较好的机器上表现不明显。二是不同硬件设备也会造成延时，这个表现会明星许多。
+
+	
+
 	案例地址[http://zhazhaxia.github.io/webaudio/public/recordsong.html](http://zhazhaxia.github.io/webaudio/public/recordsong.html "web音频录音与实时回放")
 	（建议在PC新版本chrome or firefox体验）
 
@@ -284,6 +290,10 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 		    }
 		}
 
+	4 注意问题
+
+	利用WebAudioAPI剪切音频时，通过BufferSource的start接口设置目标时间段后，需要从头播放到目标区间才能开始剪切。WebAudioAPI无法读取全局的音频数据，这一点处理会比较麻烦些。
+
 	案例地址[http://zhazhaxia.github.io/webaudio/public/songclip.html](http://zhazhaxia.github.io/webaudio/public/songclip.html "音频剪切")
 
 	![](http://i.imgur.com/uEJDike.png)
@@ -323,7 +333,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	
 	2 通过xhr读取录音音频、伴奏音频，并转音频buffer
 
-	外部伴奏资源http:与录音blob:资源通过xhr读取，转成BufferSource能够获取的源数据。（audioContext解码blob:数据在chrome目前（56.0.2914.3）还不支持，firefox已提供接口解决）
+	外部伴奏资源http:与录音blob:资源通过xhr读取，转成BufferSource能够获取的源数据。
 
 		getData:function (src) {//http:或blob:资源
 			var dtd = $.Deferred();
@@ -422,6 +432,10 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 		    window.open(src);
 		    $('body').append('<a href="'+src+'" download="filename"> download the cliped song</a>');
 		}
+
+	5 注意问题
+
+	audioContext解码blob:数据在chrome目前（56.0.2914.3）还不支持，firefox已提供接口解决。
 	
 	在线k歌的歌曲伴奏也可以通过Web Audio API实现，主要原理的：人声是有固定频率范围的，把一首歌曲读取后，根据webAudio提供的接口，实现人声频段的过滤，保留下伴奏，从而实现web平台下的伴奏人声消除应用。
 

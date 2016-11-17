@@ -1,6 +1,6 @@
 ##  Web Audio API介绍和web音频应用案例分析  ##
 
-Web Audio API是web处理与合成音频的高级javascript api。Web Audio API草案规范由W3C audio working group定制，旨在解决javascript在web平台处理音频的短板，底层由c++引擎提供支持与优化。Web Audio API提供了非常丰富的接口让开发者在web平台上实现对web音频进行处理。利用Web Audio API，web开发者能够在web平台实现音频音效、音频可视化、3D音频等音频效果。	
+Web Audio API是web处理与合成音频的高级javascript api。Web Audio API草案规范由W3C audio working group定制，旨在解决javascript在web平台处理音频的短板，底层由c++引擎提供支持与优化。Web Audio API提供了非常丰富的接口让开发者在web平台上实现对web音频进行处理。利用Web Audio API，web开发者能够在web平台实现音频音效、音频可视化、3D音频等音频效果。本篇文章首先介绍了Web Audio API相关概念、常用的几个接口节点，以便不熟悉Web Audio的开发人员有个了解。后面主要分析了3个Web Audio API的应用案例，web音频录音与实时回放、web音频剪切、web实现在线k歌，通过应用案例加深对Web Audio API的了解。读者也可以根据案例开拓思维，做出更好玩的web音频应用。
 
 ### Web Audio API基本概念 ###
 - audio context
@@ -57,7 +57,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	
 	
 
-	- DelayNode，可以讲音频延时播放，如果在音频播放时，一路正常到达destinationNode，一路通过DelayNode到达destinationNode，就可以产生回音混响的效果
+	- DelayNode，可以将音频延时播放，如果在音频播放时，一路正常到达destinationNode，一路通过DelayNode到达destinationNode，就可以产生回音混响的效果
 	
 					——————————————>
 			source 					——>destinationNode
@@ -302,7 +302,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 
 - web实现在线K歌
 
-	思路：在web平台实现k歌应用，关键在于将人声跟伴奏的音频整合一起。首先需要两个声源，一个是伴奏，声源类型ElementSource。一个是人声，通过麦克风录音获取，声源类型StreamSource。在K歌过程将声音经过ScriptProcessorNode处理，整合，然后保存数据。最后将音频链接到destination。保存的数据可以本地存储和在线播放，从而实现在web平台的在线k歌应用。
+	思路：在web平台实现k歌应用，关键在于将人声跟伴奏的音频整合一起。首先需要两个声源，一个是伴奏，声源类型ElementSource。一个是人声，通过麦克风录音获取，声源类型StreamSource。在K歌过程将声音经过ScriptProcessorNode处理，整合，然后保存数据。最后将音频连接到destination。保存的数据可以本地存储和在线播放，从而实现在web平台的在线k歌应用。
 
 		伴奏ElementSource	人声录音StreamSource
 				↓					↓
@@ -353,7 +353,7 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	
 	3 合并录音、伴奏
 
-	将伴奏BufferSource跟录音BufferSource链接到ScriptProcessor节点，进行音频的合并。
+	将伴奏BufferSource跟录音BufferSource连接到ScriptProcessor节点，进行音频的合并。
 
 		mergeBuffer:function (buffer1,buffer2) {
 		    exports.source1 = exports.audioContext.createBufferSource();//录音音频
@@ -479,3 +479,8 @@ Web Audio API处理web音频的过程：AudioContext产生实例节点，音频�
 	[http://codepen.io/edball/pen/WQjMEN/](http://codepen.io/edball/pen/WQjMEN/)
 
 	[https://modernweb.com/2014/03/31/creating-sound-with-the-web-audio-api-and-oscillators/](https://modernweb.com/2014/03/31/creating-sound-with-the-web-audio-api-and-oscillators/)
+
+
+
+
+

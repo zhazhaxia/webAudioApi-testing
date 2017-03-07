@@ -31,7 +31,7 @@ define('./js/recordsong',function( require, exports, module){
             var recorder=exports.audioContext.createScriptProcessor(1024,1,1);
             source.connect(recorder);
             recorder.connect(exports.audioContext.destination)
-              recorder.onaudioprocess=function(e){
+            recorder.onaudioprocess=function(e){
                 var inputBuffer = e.inputBuffer;
                 // console.log(inputBuffer)
                 var outputBuffer = e.outputBuffer;

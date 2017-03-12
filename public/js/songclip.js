@@ -122,7 +122,7 @@ define('./js/songclip',function( require, exports, module){
             view.setUint32(40,length,true); //数据长度
             buffer.set(new Uint8Array(new Int16Array(wave).buffer),44); //数据
             //打开文件
-            var blob=new Blob([buffer],{type:"audio/wav"});
+            var blob=new Blob([buffer],{type:"audio/mp3"});
             // console.log('blob',blob)
             var src = URL.createObjectURL(blob);
             $('#player')[0].src = src;
